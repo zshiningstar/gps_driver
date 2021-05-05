@@ -45,6 +45,9 @@ add_message_files(
         Satellites.msg
         
         Gpchc.msg
+        
+        Daoyuan.msg #add by star
+        Rotation.msg #add by star
 )
 
 ## Generate services in the 'srv' folder
