@@ -274,6 +274,9 @@ void Daoyuan::parse(const uint8_t* buffer)
 		case 32:
 		{	
 			m_wheel.num_satellites	= wheel_data2;
+			m_satelliteNum = wheel_data2;
+			m_locationState = wheel_data1;
+			
 			switch (wheel_data1)
 			{
 				case 0:
