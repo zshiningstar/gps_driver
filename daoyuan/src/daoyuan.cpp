@@ -363,9 +363,13 @@ void Daoyuan::parse(const uint8_t* buffer)
 		odom.pose.pose.position.y = utm.northing;
 		odom.pose.pose.position.z = utm.altitude;
 		
-		odom.pose.covariance[0] = m_gps.azimuth *M_PI / 180.0;
+		odom.pose.covariance[0] = yaw;
 		odom.pose.covariance[1] = point.longitude;
 		odom.pose.covariance[2] = point.latitude;
+		odom.pose.covariance[3] = m_satelliteNum; //卫星个数
+		
+		//定位有效性0: 有效，1:无效
+		odom.pose.covariance[4] = (m_satelliteNum < 20 || m_locationState < 48); 
 		
 		
 		odom.pose.pose.orientation.x = quat.x();
