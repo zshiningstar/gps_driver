@@ -371,8 +371,8 @@ void Daoyuan::parse(const uint8_t* buffer)
 		odom.pose.covariance[2] = point.latitude;
 		odom.pose.covariance[3] = m_satelliteNum; //卫星个数
 		
-		//定位有效性0: 有效，1:无效
-		odom.pose.covariance[4] = (m_satelliteNum < 20 || m_locationState < 48); 
+		//定位有效性9: 有效，0:无效
+		odom.pose.covariance[4] = (m_satelliteNum < 20 || m_locationState < 48) ? 0 : 9; 
 		
 		
 		odom.pose.pose.orientation.x = quat.x();
