@@ -244,10 +244,7 @@ void Daoyuan::parse(const uint8_t* buffer)
 		m_gps.Initializing_State = 0;
 	else 
 		m_gps.Initializing_State = 1;
-	if((fabs(latitude) <=3) && (fabs(longitude) <=3))
-		return;
-	else
-		m_pub_rs422.publish(m_gps);  // 发布原始解析程序
+	m_pub_rs422.publish(m_gps);  // 发布原始解析程序
 	
 	uint8_t wheel_type = buffer[56];
 	
