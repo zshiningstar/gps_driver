@@ -58,7 +58,7 @@ bool Daoyuan::init()
 	nh_private.param<std::string>("child_frame_id", m_child_frame_id, "gps");
 	
 	nh_private.param<bool>("pub_odom", m_is_pub_ll2utm, false);
-	nh_private.param<bool>("pub_tf", m_is_pub_tf, true);
+	nh_private.param<bool>("pub_tf", m_is_pub_tf, false);
 	
 	std::string port_name = nh_private.param<std::string>("port_name","/dev/ttyUSB0");
 	int baudrate = nh_private.param<int>("baudrate",115200);
