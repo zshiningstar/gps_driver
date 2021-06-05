@@ -132,7 +132,7 @@ endif (BUILD_WITH_ROS)
 
 # Mark executables and/or libraries for installation
 if(BUILD_WITH_ROS)
-  install(TARGETS novatel novatel_node
+  install(TARGETS novatel_node #novatel
     ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
     LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
     RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
