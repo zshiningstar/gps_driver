@@ -1,5 +1,8 @@
 # gps解析程序
 
+## 依赖安装
+rosdep install --from-paths src --ignore-src -r -y
+
 ## 数据结构约定
 为使不同品牌GPS均适用于东南大学至善智能车队及其他自动驾驶项目，约定各GPS解析程序除具备其特有消息类型外, 必须具有nav_msgs::Odometry消息且
 1. pose.pose.position      UTM坐标
