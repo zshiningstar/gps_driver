@@ -18,14 +18,6 @@
 #include"gps_msgs/Satellites.h"
 #include <tf2_ros/transform_broadcaster.h>
 
-
-#define coefficient1  0.010986328125
-#define coefficient2  0.0091552734375
-#define coefficient3  0.0003662109375
-#define coefficient4  0.0000001
-#define coefficient5  0.001
-#define coefficient6  0.0030517578125
-#define coefficient7  0.25
 #define NATURE        2.718281
 
 #define PACK( __Declaration__ ) __Declaration__ __attribute__((__packed__))
@@ -38,56 +30,38 @@ struct pkgRS422_t
 	uint8_t header1;
 	uint8_t header2;
 	
-	float roll;
-	float pitch;
-	float azimuth;
+	int16_t roll;
+	int16_t pitch;
+	int16_t azimuth;
 	
-	float top_velocity_x;
-	float top_velocity_y;
-	float top_velocity_z;
+	int16_t gyroscope_velocity_x;
+	int16_t gyroscope_velocity_y;
+	int16_t gyroscope_velocity_z;
 	
-	float table_x;
-	float table_y;
-	float table_z;
+	int16_t accelerator_x;
+	int16_t accelerator_y;
+	int16_t accelerator_z;
 	
-	double latitude;
-	double longitude;
-	double height;
+	int32_t latitude;
+	int32_t longitude;
+	int32_t height;
 	
-	float north_velocity;
-	float east_velocity;
-	float down_velocity;
+	int16_t north_velocity;
+	int16_t east_velocity;
+	int16_t down_velocity;
 	
-	float wheel_data1;
-	float wheel_data2;	
-	float wheel_data3;
+	uint8_t gps_state;
+	
+	int16_t wheel_data1;
+	int16_t wheel_data2;	
+	int16_t wheel_data3;
 
 	uint32_t gps_time; 
-	int rotation_type;
-	uint8_t xorcheck_value;             // 异或校验值
-	uint32_t gps_zhou;
-	uint8_t check_value;
-	
-	int gps_state;
+	uint8_t rotation_type;
+	uint8_t xorcheck_value1;
+	uint32_t gps_week;
+	uint8_t xorcheck_value2;
 });
-
-//enum GpsState 
-//{
-//	NONE = 0, 
-//	FIXEDPOS = 1, 
-//	FIXEDHEIGHT = 2, 
-//	DOPPLER_VELOCITY = 8, 
-//	SINGLE = 16,
-//	PSRDIFF = 17,
-//	SBAS = 18,
-//	L1_FLOAT = 32,
-//	IONOFREE_FLOAT = 33,
-//	NARROW_FLOAT = 34,
-//	L1_INT = 48,
-//	WIDE_INT = 49,
-//	NARROW_INT = 50
-//};
-
 
 double deg2rad(const double& deg)
 {

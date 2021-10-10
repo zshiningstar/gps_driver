@@ -50,7 +50,6 @@ bool Daoyuan::init()
 	ros::NodeHandle nh_private("~");
 	m_pub_rs422 = nh.advertise<gps_msgs::Daoyuan>(nh_private.param<std::string>("gps_topic","/gps"),1);
 	m_pub_wheel = nh.advertise<gps_msgs::Rotation>(nh_private.param<std::string>("rotation_topic","/rotation"),1);
-	//m_pub_id20 = nh.advertise<gps_msgs::Inspvax>(nh_private.param<std::string>("gps_topic","/gps"),1);
 	
 	m_pub_ll2utm = nh.advertise<nav_msgs::Odometry>(nh_private.param<std::string>("odom_topic","/odom"),1);
 	
@@ -100,7 +99,7 @@ void Daoyuan::readSerialThread()
 			continue;
 		}
 		
-		parseIncomingData(raw_data_buf, get_len);      // 解析数据
+		parseIncomingData(raw_data_buf, get_len);
 		ros::Duration(0.01).sleep();
 		
 //		boost::this_thread::sleep(boost::posix_time::milliseconds(10));
@@ -171,40 +170,33 @@ void Daoyuan::parseIncomingData(uint8_t* buffer,size_t len)
 
 void Daoyuan::parse(const uint8_t* buffer)
 {
-//	auto gpsPtr = (const pkgRS422_t *)buffer;
+	auto gpsPtr = (const pkgRS422_t *)buffer;
 	
 	m_gps.header.stamp = ros::Time::now();
 	m_gps.header.frame_id = "gps";
+	m_gps.roll = gpsPtr->roll;
+	m_gps.pitch = gpsPtr->pitch;
+	m_gps.azimuth = gpsPtr->azimuth;
+	m_gps.gyroscope_velocity_x = gpsPtr->gyroscope_velocity_x;
+	m_gps.gyroscope_velocity_y = gpsPtr->gyroscope_velocity_y;
+	m_gps.gyroscope_velocity_z = gpsPtr->gyroscope_velocity_z;
+	m_gps.accelerator_x = gpsPtr->accelerator_x;
+	m_gps.accelerator_y = gpsPtr->accelerator_y;
+	m_gps.accelerator_z = gpsPtr->accelerator_z;
+	m_gps.latitude = gpsPtr->latitude;
+	m_gps.longitude = gpsPtr->longitude;
+	m_gps.height = gpsPtr->height;
+	m_gps.north_velocity = gpsPtr->north_velocity;
+	m_gps.east_velocity = gpsPtr->east_velocity;
+	m_gps.down_velocity = gpsPtr->down_velocity;
+	m_gps.gps_state = gpsPtr->gps_state;
+	int16_t wheel_data1 = gpsPtr->wheel_data1;
+	int16_t wheel_data2 = gpsPtr->wheel_data2;
+	int16_t wheel_data3 = gpsPtr->wheel_data3;
 	
-	m_gps.roll = *(int16_t*)(buffer+3) * coefficient1;
-	m_gps.pitch = *(int16_t*)(buffer+5) * coefficient1;
-	m_gps.azimuth = *(int16_t*)(buffer+7) * coefficient1;
-	
-	m_gps.gyroscope_velocity_x = *(int16_t*)(buffer+9) * coefficient2;
-	m_gps.gyroscope_velocity_y =  *(int16_t*)(buffer+11) * coefficient2;
-	m_gps.gyroscope_velocity_z =  *(int16_t*)(buffer+13) * coefficient2;
-	
-	m_gps.accelerator_x = *(int16_t*)(buffer+15) * coefficient3;
-	m_gps.accelerator_y =  *(int16_t*)(buffer+17) * coefficient3;
-	m_gps.accelerator_z = *(int16_t*)(buffer+19) * coefficient3;
-	
-	m_gps.latitude = *(int32_t*)(buffer+21) * coefficient4;
-	m_gps.longitude = *(int32_t*)(buffer+25) * coefficient4;
-	m_gps.height = *(int32_t*)(buffer+29) * coefficient5;
-	
-	m_gps.north_velocity =  *(int16_t*)(buffer+33) * coefficient6;
-	m_gps.east_velocity =  *(int16_t*)(buffer+35) * coefficient6;
-	m_gps.down_velocity =  *(int16_t*)(buffer+37) * coefficient6;
-	
-	m_gps.gps_state = *(buffer+37);
-	
-	int16_t wheel_data1 = *(int16_t*)(buffer+46);
-	int16_t wheel_data2 = *(int16_t*)(buffer+48);
-	int16_t wheel_data3 = *(int16_t*)(buffer+50);
-	
-	m_gps.gps_time = *(uint32_t*)(buffer+52) * coefficient7;
-	m_gps.rotation_type = buffer[56];
-	m_gps.gps_week = *(uint32_t*)(buffer+58);
+	m_gps.gps_time = gpsPtr->gps_time;
+	m_gps.rotation_type = gpsPtr->rotation_type;
+	m_gps.gps_week = gpsPtr->gps_week;
 	
 	float latitude = m_gps.latitude;
 	float longitude = m_gps.longitude;
@@ -300,7 +292,6 @@ void Daoyuan::parse(const uint8_t* buffer)
 	geodesy::UTMPoint utm;
 	geodesy::fromMsg(point, utm);
 	
-	
 	//经测试,车头高车尾低时，inspvax.pitch为正 -> 右方为y
     //      左侧低右侧高时，inspvax.roll为负  -> 前方为x
     //      顺时针旋转时，  inspvax.yaw增大   -> 下方为z
@@ -339,7 +330,6 @@ void Daoyuan::parse(const uint8_t* buffer)
 		//定位有效性9: 有效，0:无效
 		odom.pose.covariance[4] = (m_satelliteNum < 20 || m_locationState < 48) ? 0 : 9; 
 		
-		
 		odom.pose.pose.orientation.x = quat.x();
 		odom.pose.pose.orientation.y = quat.y();
 		odom.pose.pose.orientation.z = quat.z();
@@ -373,7 +363,6 @@ void Daoyuan::stopReading()
 	m_reading_status = false;
 }
 
-
 int main(int argc,char** argv)
 {
 	ros::init(argc,argv,"daoyuan_node");
@@ -388,6 +377,3 @@ int main(int argc,char** argv)
 	
 	ros::spin();
 }
-
-
-
