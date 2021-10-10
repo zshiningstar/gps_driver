@@ -206,38 +206,6 @@ void Daoyuan::parse(const uint8_t* buffer)
 	m_gps.rotation_type = buffer[56];
 	m_gps.gps_week = *(uint32_t*)(buffer+58);
 	
-	/*
-	//m_gps.roll				 = complement(buffer[3] + buffer[4] * 256, coefficient1);
-	m_gps.pitch 				 = complement(buffer[5] + buffer[6] * 256, coefficient1);
-	m_gps.azimuth 			 = complement(buffer[7] + buffer[8] * 256, coefficient1);
-	
-	m_gps.gyroscope_velocity_x 	 = complement(buffer[9] + buffer[10] * 256, coefficient2);
-	m_gps.gyroscope_velocity_y 	 = complement(buffer[11] + buffer[12] * 256, coefficient2);
-	m_gps.gyroscope_velocity_z 	 = complement(buffer[13] + buffer[14] * 256, coefficient2);
-	
-	m_gps.accelerator_x 			 = complement(buffer[15] + buffer[16] * 256, coefficient3);
-	m_gps.accelerator_y 	 		 = complement(buffer[17] + buffer[18] * 256, coefficient3);
-	m_gps.accelerator_z 			 = complement(buffer[19] + buffer[20] * 256, coefficient3);
-	
-	m_gps.latitude 			 = complement(buffer[21] + buffer[22] * 256 + buffer[23] * 256 *256 + buffer[24] * 256 * 256 * 256, coefficient4);
-	m_gps.longitude			 = complement(buffer[25] + buffer[26] * 256 + buffer[27] * 256 *256 + buffer[28] * 256 * 256 * 256, coefficient4);
-	m_gps.height 			 = complement(buffer[29] + buffer[30] * 256 + buffer[31] * 256 *256 + buffer[32] * 256 * 256 * 256, coefficient5);
-	
-	m_gps.north_velocity 	 = complement(buffer[33] + buffer[34] * 256, coefficient6);
-	m_gps.east_velocity 	     = complement(buffer[35] + buffer[36] * 256, coefficient6);
-	m_gps.down_velocity 		 = complement(buffer[37] + buffer[38] * 256, coefficient6);
-	
-	m_gps.gps_state 		     = complement(buffer[39], coefficient7);
-	
-	int16_t wheel_data1		     = complement(buffer[46] + buffer[47] * 256, coefficient7);
-	int16_t wheel_data1		     = complement(buffer[48] + buffer[49] * 256, coefficient7);
-	int16_t wheel_data1		     = complement(buffer[50] + buffer[51] * 256, coefficient7);
-	
-	m_gps.gps_time			 = complement(buffer[52] + buffer[53] * 256 + buffer[54] * 256 *256 + buffer[55] * 256 * 256 * 256, coefficient8);
-	m_gps.rotation_type       = buffer[56];
-	
-	m_gps.gps_week            = complement(buffer[58] + buffer[59] * 256 + buffer[60] * 256 *256 + buffer[61] * 256 * 256 * 256, coefficient7);
-	*/
 	float latitude = m_gps.latitude;
 	float longitude = m_gps.longitude;
 	if(m_gps.gps_state != 0x0f)

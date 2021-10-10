@@ -104,6 +104,7 @@ public:
 	bool init();
 	void startReading();
 	void stopReading();
+
 private:
 	bool openSerial(const std::string& port,int baudrate);
 	void closeSerial();
@@ -120,16 +121,7 @@ private:
 		}
 		return sum;
 	}
-//	float complement(int buf, float a)
-//	{
-//		int buf_num = 0;
-//		double value = 0;
-//		buf_num = *((int*)(&buf));
-//		value = (double)buf_num * a;
-//		
-//		return value;
-//	}
-	
+
 private:
 	ros::Publisher m_pub_rs422;
 	ros::Publisher m_pub_ll2utm;
@@ -152,8 +144,6 @@ private:
 	
 	tf2_ros::TransformBroadcaster m_tf_br;
 	std::string m_child_frame_id, m_parent_frame_id;
-	
 };
-
 
 #endif
