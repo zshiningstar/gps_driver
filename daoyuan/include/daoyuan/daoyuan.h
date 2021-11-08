@@ -19,6 +19,14 @@
 #include <tf2_ros/transform_broadcaster.h>
 
 #define NATURE        2.718281
+#define K1            360/32768.0
+#define K2            300/32768.0
+#define K3            12/32768.0
+#define K4            0.0000001
+#define K5            0.001
+#define K6            100/32768.0
+#define K7            0.25
+#define K8            200/32768.0
 
 #define PACK( __Declaration__ ) __Declaration__ __attribute__((__packed__))
 

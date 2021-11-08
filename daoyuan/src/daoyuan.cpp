@@ -174,27 +174,27 @@ void Daoyuan::parse(const uint8_t* buffer)
 	
 	m_gps.header.stamp = ros::Time::now();
 	m_gps.header.frame_id = "gps";
-	m_gps.roll = gpsPtr->roll*360/32768.0;
-	m_gps.pitch = gpsPtr->pitch*360/32768.0;
-	m_gps.azimuth = gpsPtr->azimuth*360/32768.0;
-	m_gps.gyroscope_velocity_x = gpsPtr->gyroscope_velocity_x*300/32768.0;
-	m_gps.gyroscope_velocity_y = gpsPtr->gyroscope_velocity_y*300/32768.0;
-	m_gps.gyroscope_velocity_z = gpsPtr->gyroscope_velocity_z*300/32768.0;
-	m_gps.accelerator_x = gpsPtr->accelerator_x*12/32768.0;
-	m_gps.accelerator_y = gpsPtr->accelerator_y*12/32768.0;
-	m_gps.accelerator_z = gpsPtr->accelerator_z*12/32768.0;
-	m_gps.latitude = gpsPtr->latitude*0.0000001;
-	m_gps.longitude = gpsPtr->longitude*0.0000001;
+	m_gps.roll = gpsPtr->roll*K1;
+	m_gps.pitch = gpsPtr->pitch*K1;
+	m_gps.azimuth = gpsPtr->azimuth*K1;
+	m_gps.gyroscope_velocity_x = gpsPtr->gyroscope_velocity_x*K2;
+	m_gps.gyroscope_velocity_y = gpsPtr->gyroscope_velocity_y*K2;
+	m_gps.gyroscope_velocity_z = gpsPtr->gyroscope_velocity_z*K2;
+	m_gps.accelerator_x = gpsPtr->accelerator_x*K3;
+	m_gps.accelerator_y = gpsPtr->accelerator_y*K3;
+	m_gps.accelerator_z = gpsPtr->accelerator_z*K3;
+	m_gps.latitude = gpsPtr->latitude*K4;
+	m_gps.longitude = gpsPtr->longitude*K4;
 	m_gps.height = gpsPtr->height*0.001;
-	m_gps.north_velocity = gpsPtr->north_velocity*100/32768.0;
-	m_gps.east_velocity = gpsPtr->east_velocity*100/32768.0;
-	m_gps.down_velocity = gpsPtr->down_velocity*100/32768.0;
+	m_gps.north_velocity = gpsPtr->north_velocity*K6;
+	m_gps.east_velocity = gpsPtr->east_velocity*K6;
+	m_gps.down_velocity = gpsPtr->down_velocity*K6;
 	m_gps.gps_state = gpsPtr->gps_state;
 	int16_t wheel_data1 = gpsPtr->wheel_data1;
 	int16_t wheel_data2 = gpsPtr->wheel_data2;
 	int16_t wheel_data3 = gpsPtr->wheel_data3;
 	
-	m_gps.gps_time = gpsPtr->gps_time;
+	m_gps.gps_time = gpsPtr->gps_time*K7;
 	m_gps.rotation_type = gpsPtr->rotation_type;
 	m_gps.gps_week = gpsPtr->gps_week;
 	
@@ -226,7 +226,7 @@ void Daoyuan::parse(const uint8_t* buffer)
 			m_wheel.yawstd 			= pow(NATURE, wheel_data3 / 100.0);
 			break;
 		case 22:
-			m_wheel.temperature 	= wheel_data1 * 200.0 / 32768;
+			m_wheel.temperature 	= wheel_data1 * K8;
 			break;
 		case 32:
 		{	
